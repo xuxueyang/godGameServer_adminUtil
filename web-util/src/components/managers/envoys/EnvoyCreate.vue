@@ -1,9 +1,8 @@
 <template>
-<div id="CardCreate">
+<div id="EnvoyCreate">
 <el-form ref="form" :model="form" label-width="80px">
-  <p style="margin-bottom:20px;" v-if="form.id">更新卡牌</p>
-  <p style="margin-bottom:20px;" v-else>创建卡牌</p>
-
+  <p style="margin-bottom:20px;" v-if="form.id">更新棋子</p>
+  <p style="margin-bottom:20px;" v-else>创建棋子</p>
   <!-- <el-form-item label="ID" style="display: flex">
     <el-input v-model="form.id"></el-input>
   </el-form-item> -->
@@ -12,27 +11,31 @@
   </el-form-item>
   <el-form-item label="品级grade"   style="display: flex">
     <el-select v-model="form.grade" placeholder="请选择品级">
-      <el-option v-for=" tmp in config.Grade" v-bind:key="tmp" :label="tmp.label" :value="tmp.value"></el-option>
+      <el-option v-for=" tmp in config.Grade" v-bind:key="tmp.value" :label="tmp.label" :value="tmp.value"></el-option>
     </el-select>
   </el-form-item>
-  <el-form-item label="费用feiyong"   style="display: flex">
-    <el-input-number v-model="form.feiyong"  :min="1" :max="10" label="请输入费用"></el-input-number>
-  </el-form-item>
-  <el-form-item label="类型cardType"   style="display: flex">
-    <el-select v-model="form.cardType" placeholder="请选择类型">
-      <el-option v-for=" tmp in config.CardType" v-bind:key="tmp" :label="tmp.label" :value="tmp.value"></el-option>
+  <el-form-item label="属性attribute"   style="display: flex">
+    <el-select v-model="form.attribute" placeholder="请选择属性">
+      <el-option v-for=" tmp in config.Attribute" v-bind:key="tmp.value" :label="tmp.label" :value="tmp.value"></el-option>
     </el-select>
   </el-form-item>
+
+  <el-form-item label="种族race"   style="display: flex">
+    <el-select v-model="form.race" placeholder="请选择种族">
+      <el-option v-for=" tmp in config.Race" v-bind:key="tmp.value" :label="tmp.label" :value="tmp.value"></el-option>
+    </el-select>
+  </el-form-item>
+
   <el-form-item label="效果">
     <el-checkbox-group v-model="form.effect">
       <el-checkbox v-for=" tmp in config.Effect" v-bind:key="tmp.id" :label="tmp.description + '_' +tmp.id"></el-checkbox>
     </el-checkbox-group>
   </el-form-item>
-  <el-form-item label="效果描述effectDescription">
-    <el-input type="textarea" v-model="form.effectDescription"></el-input>
+  <el-form-item label="卡牌描述">
+    <el-input type="textarea" v-model="form.description"></el-input>
   </el-form-item>
-  <el-form-item label="文案描述smallDescription">
-    <el-input type="textarea" v-model="form.smallDescription"></el-input>
+  <el-form-item label="设计备注">
+    <el-input type="textarea" v-model="form.designDescription"></el-input>
   </el-form-item>
   
   <el-form-item>
@@ -66,11 +69,10 @@ import { async } from 'q';
           grade: '',
           race: '',
           cardType: '',
-          feiyong: 0,
           attribute: '',
           effect: [],
-          effectDescription: '',
-          smallDescription: '',
+          description: '',
+          designDescription: '',
           jsonMap:{
 
           }
@@ -92,13 +94,16 @@ import { async } from 'q';
         this.config = res
       },
       onSubmit() {
-        console.log('submit!');
+        
+        itemService.saveEnvoy(this.form).then(res => {
+          console.log(res)
+        })
       }
     }
   }
 </script>
 <style>
-#CardCreate{
+#EnvoyCreate{
   padding-top: 80px;
 }
 /* #CardCreate el-form el-form-item el-form-item__content{
